@@ -1,0 +1,24 @@
+server:
+  port: 7777 # 服务端口
+spring:
+  application:
+    name: zuul-gateway
+eureka:
+  client:
+    registerWithEureka: true # 服务注册开关
+    fetchRegistry: true # 服务发现开关
+    serviceUrl: # 客户端(服务提供者)注册到哪一个Eureka Server服务注册中心，多个用逗号分隔
+      defaultZone: http://127.0.0.1:9000/eureka/,http://127.0.0.1:9002/eureka/
+    instance:
+      instanceId: ${spring.application.name}:${server.port} # 指定实例ID,就不会显示主机名了
+      preferIpAddress: true #访问路径可以显示IP地址
+zuul:
+  routes:
+    povider-product-01:  # 路由名称，名称任意，保持所有路由名称唯一
+      path: /consumer/product/** # 访问路径,比如電腦端的轉發到一个请求端，手机端的转发到一个请求端
+      serviceId: CONSUMER-PRODUCT-FEIGN # 指定服务ID，会自动从Eureka中找到此服务的ip和端口
+      stripPrefix: false # 代理转发时去掉前缀，false:代理转发时不去掉前缀 例如:为true时请求 /product/get/1，代理转发到/get/1
+  #povider-product-02: # 路由名称，名称任意，保持所有路由名称唯一
+  #      path: /web/product/** # 访问路径,比如電腦端的轉發到一个请求端，手机端的转发到一个请求端
+  #      serviceId: SPRINGCLOUD-PRODUCT # 指定服务ID，会自动从Eureka中找到此服务的ip和端口
+  #      stripPrefix: true # 代理转发时去掉前缀，false:代理转发时不去掉前缀 例如:为true时请求 /product/get/1，代理转发到/get/1

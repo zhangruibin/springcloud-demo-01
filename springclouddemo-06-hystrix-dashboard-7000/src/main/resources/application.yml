@@ -1,0 +1,15 @@
+server:
+  port: 7000
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: hystrix.stream
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:9000/eureka/,http://127.0.0.1:9002/eureka/
+spring:
+  application:
+    name: hystrix-dashboard

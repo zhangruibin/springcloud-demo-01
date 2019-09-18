@@ -1,0 +1,44 @@
+package com.zhrb.springcloud;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @ClassName EurekaServer_9000
+ * @Description TODO
+ * @Author Administrator
+ * @Date 2019/9/5 9:02
+ * @Version
+ */
+@RestController
+@EnableEurekaServer
+@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
+public class EurekaServer_9000 {
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaServer_9000.class, args);
+    }
+    @Value("${server.port}")
+    String port;
+    @RequestMapping("/hi")
+    public String home(@RequestParam String name) {
+        return "hi "+name+",i am from port:" +port+"this is my first test eureka";
+    }
+    @RequestMapping("/shishi")
+    public Object getNumber(){
+        String s = "";
+        for (int i=1;i<=9;i++){
+            for (int j = 1;j<=i;j++){
+                s+=i+"*"+j+"="+(i*j)+"\t";
+                System.out.print(i+"*"+j+"="+(i*j)+"\t");
+            }
+            System.out.print("\n");
+        }
+        return s;
+    }
+}
